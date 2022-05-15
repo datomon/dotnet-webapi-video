@@ -20,12 +20,11 @@ namespace video.Controllers
             env = _env;
         }
 
-        // 檔案未放在 wwwroot 目錄下
         [HttpGet]
         public FileResult get(string fname, int type)
         {
-            // --------- type == 1：影片在前端 wwwroot 目錄下 -----
-            // --------- type == 2：影片不在前端 wwwroot 目錄下 -----
+            // ----- 情況 1 (type == 1)，影片在前端 wwwroot 目錄下 -----
+            // ----- 情況 2 (type == 2)，影片不在前端 wwwroot 目錄下 ----
 
             // 專案根目錄
             string ContentRootPath = this.env.ContentRootPath;
