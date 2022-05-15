@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>video測試</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .ipt { margin-bottom: 20px; }
+        .ipt button { margin-left: 15px; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="ipt">
+            請輸入 MP4 檔名：
+            <input v-model="fileName">
+            <button type="button" @click="start" :disabled="isLoading">開始</button>
+        </div>
+
+        <div class="ipt">
+            影片是否在 wwwroot 下
+            <input type="radio" id="type1" value="1" v-model.number="type">
+            <label for="type1">在</label>
+            
+            <input type="radio" id="type2" value="2" v-model.number="type">
+            <label for="type2">不在</label>
+        </div>
+        
+        
+        <video autoplay controls width="600" height="400"
+            :src="videoUrl" 
+            ref="videoEle"
+        ></video>    
+    </div>
+    
+    <script>
+        const { ref, createApp } = Vue;
+
+        const app = createApp({
+            setup() {
+                const fileName = ref('');  // input 檔名
+                const type = ref(1);  // radio 影片是否在 wwwroot 下
+                const isLoading = ref(false);  // 是否讀取中
+                const videoUrl = ref('');  // 影片 url
+                const videoEle = ref(null);  // 影片 DOM element
+
+                const start = () => {
+                    videoUrl.value = `https://localhost:5001/api/video?fname=${fileName.value}&type=${type.value}`;
+                    videoEle.value.load();  // 重讀影片
+                };
+
+
+                return { fileName, type, isLoading, videoUrl, videoEle, start };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
