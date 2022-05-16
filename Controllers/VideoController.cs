@@ -21,7 +21,7 @@ namespace video.Controllers
         }
 
         [HttpGet]
-        public FileResult get(string fname, int type)
+        public FileResult get(string fname, string type)
         {
             // ----- 情況 1 (type == 1)，影片在前端 wwwroot 目錄下 -----
             // ----- 情況 2 (type == 2)，影片不在前端 wwwroot 目錄下 ----
@@ -30,14 +30,14 @@ namespace video.Controllers
             string ContentRootPath = this.env.ContentRootPath;
             
             // 影片路徑
-            string path = (type == 1)? 
-                            $"videos/{fname}" :  // wwwroot 下的相對路徑
-                            $"{ContentRootPath}/videos/{fname}";   // 檔案系統的絕對路徑
+            string path = (type == "y") 
+                            ? $"videos/{fname}"  // wwwroot 下的相對路徑
+                            : $"{ContentRootPath}/videos/{fname}";   // 檔案系統的絕對路徑
 
-            // 回傳檔案
-            return (type == 1)?
-                    File(path, contentType: "application/octet-stream", enableRangeProcessing: true) :
-                    PhysicalFile(path, contentType: "application/octet-stream", enableRangeProcessing: true);
+            // 回傳檔案 (ios 系統 contentType 需要指定明確的類型，ex：video/mp4)
+            return (type == "y")
+                    ? File(path, contentType: "video/mp4", enableRangeProcessing: true)
+                    : PhysicalFile(path, contentType: "application/octet-stream", enableRangeProcessing: true);
         }
     }
 }

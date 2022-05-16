@@ -16,20 +16,21 @@
         <div class="ipt">
             請輸入 MP4 檔名：
             <input v-model="fileName">
-            <button type="button" @click="start" :disabled="isLoading">開始</button>
+            <button type="button" @click="start">開始</button>
         </div>
 
         <div class="ipt">
             影片是否在 wwwroot 下
-            <input type="radio" id="type1" value="1" v-model.number="type">
+            <input type="radio" id="type1" value="y" v-model="type">
             <label for="type1">在</label>
             
-            <input type="radio" id="type2" value="2" v-model.number="type">
+            <input type="radio" id="type2" value="n" v-model="type">
             <label for="type2">不在</label>
         </div>
         
         
         <video autoplay controls width="600" height="400"
+            type="video/mp4"
             :src="videoUrl" 
             ref="videoEle"
         ></video>    
@@ -41,8 +42,7 @@
         const app = createApp({
             setup() {
                 const fileName = ref('');  // input 檔名
-                const type = ref(1);  // radio 影片是否在 wwwroot 下
-                const isLoading = ref(false);  // 是否讀取中
+                const type = ref('y');  // radio 影片是否在 wwwroot 下
                 const videoUrl = ref('');  // 影片 url
                 const videoEle = ref(null);  // 影片 DOM element
 
@@ -52,7 +52,7 @@
                 };
 
 
-                return { fileName, type, isLoading, videoUrl, videoEle, start };
+                return { fileName, type, videoUrl, videoEle, start };
             }
         }).mount('#app');
     </script>
